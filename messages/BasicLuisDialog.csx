@@ -26,7 +26,7 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("Uhrzeit")]
     public async Task UhrzeitIntent(IDialogContext context, LuisResult result)
     {
-        await context.PostAsync($"Die Uhrzeit ist jetzt " + DateTime.Now.ToString("hh:mm")); //
+        await context.PostAsync($"Die Uhrzeit ist nun " + DateTime.Now.ToString("hh:mm")); //
         context.Wait(MessageReceived);
     }
 
