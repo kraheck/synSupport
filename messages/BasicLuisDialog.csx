@@ -75,7 +75,7 @@ public class BasicLuisDialog : LuisDialog<object>
             DemoData data = new DemoData();
             Person p = data.getPersonFromText(ent.Entity);
             if (p == null)
-                await context.PostAsync($"Ich konnte leider keine passende Person finden.");
+                await context.PostAsync($"Ich konnte leider keine passende Person mit dem Namen '{ent.Entity}' finden.");
             else
                 await context.PostAsync($"{p.Anzeigename} arbeitet im Bereich {p.Bereich.ToString()}.");
         }
