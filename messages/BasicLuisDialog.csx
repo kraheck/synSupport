@@ -26,14 +26,21 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("Uhrzeit")]
     public async Task UhrzeitIntent(IDialogContext context, LuisResult result)
     {
-        await context.PostAsync($"Die Uhrzeit ist nun " + TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard time")).ToString("HH:mm")); 
+        await context.PostAsync($"Es ist " + TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard time")).ToString("HH:mm") + " Uhr."); 
+        context.Wait(MessageReceived);
+    }
+
+    [LuisIntent("Person_Fachbereich")]
+    public async Task Person_FachbereichIntent(IDialogContext context, LuisResult result)
+    {
+        await context.PostAsync($"Fachbereich");
         context.Wait(MessageReceived);
     }
 
     [LuisIntent("Dank")]
     public async Task DankIntent(IDialogContext context, LuisResult result)
     {
-        await context.PostAsync($"Gern geschehen!"); //
+        await context.PostAsync($"Gern geschehen! :-)"); 
         context.Wait(MessageReceived);
     }
     
