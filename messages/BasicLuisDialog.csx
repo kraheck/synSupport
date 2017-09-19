@@ -31,9 +31,10 @@ public class DemoData : List<Person>
 
     public Person getPersonFromText(string text)
     {
+        text = text.ToLower();
         foreach (Person p in this)
         {
-            if (text.Contains(p.Nachname) || text.Contains(p.Vorname))
+            if (text.Contains(p.Nachname.ToLower()) || text.Contains(p.Vorname.ToLower()))
                 return p;
         }
 
