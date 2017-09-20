@@ -20,25 +20,36 @@ public class Person
 public class DemoData : List<Person>
 {
 
-    public enum Fachbereich { Entwicklung, Vertrieb }
+    public enum Fachbereich { Geschaeftsfuehrung, Buchhaltung, Vertrieb, IT, Marketing, Projektleitung, Projektarbeit, Service }
     public DemoData()
     {
-        Add(new Person() { Vorname = "Oliver", Nachname = "Kraheck", Bereich = Fachbereich.Entwicklung });
-        Add(new Person() { Vorname = "Manuel", Nachname = "Wasmuth", Bereich = Fachbereich.Entwicklung });
-        Add(new Person() { Vorname = "Fabian", Nachname = "Felten", Bereich = Fachbereich.Vertrieb });
-        Add(new Person() { Vorname = "Norbert", Nachname = "Schmidt", Bereich = Fachbereich.Vertrieb });
+        Add(new Person() { Vorname = "Bettina", Nachname = "Flauser", Bereich = Fachbereich.Geschaeftsfuehrung });
+        Add(new Person() { Vorname = "Gregor", Nachname = "Zimmer", Bereich = Fachbereich.Buchhaltung });
+        Add(new Person() { Vorname = "Bernd", Nachname = "Kreuler", Bereich = Fachbereich.IT });
+        Add(new Person() { Vorname = "Mario", Nachname = "Goslo", Bereich = Fachbereich.IT });
+        Add(new Person() { Vorname = "Irina", Nachname = "Weissmann", Bereich = Fachbereich.Marketing });
+        Add(new Person() { Vorname = "Michael", Nachname = "Kubek", Bereich = Fachbereich.Marketing });
+        Add(new Person() { Vorname = "Franziska", Nachname = "Römer", Bereich = Fachbereich.Projektleitung });
+        Add(new Person() { Vorname = "Anja", Nachname = "Molke", Bereich = Fachbereich.Projektarbeit });
+        Add(new Person() { Vorname = "Rainer", Nachname = "Egemann", Bereich = Fachbereich.Buchhaltung });
+        Add(new Person() { Vorname = "Thomas", Nachname = "Seneke", Bereich = Fachbereich.Vertrieb });
+        Add(new Person() { Vorname = "Marco", Nachname = "Spinker", Bereich = Fachbereich.Vertrieb });
+        Add(new Person() { Vorname = "Daniel", Nachname = "Gonso", Bereich = Fachbereich.Service });
+        Add(new Person() { Vorname = "Markus", Nachname = "Sammler", Bereich = Fachbereich.Geschaeftsfuehrung });
+        Add(new Person() { Vorname = "Anja", Nachname = "Kramer", Bereich = Fachbereich.Geschaeftsfuehrung });
     }
 
-    public Person getPersonFromText(string text)
+    public List<Person> getPersonFromText(string text)
     {
+        List<Person> result = new List<Person>();
         text = text.ToLower();
         foreach (Person p in this)
         {
             if (text.Contains(p.Nachname.ToLower()) || text.Contains(p.Vorname.ToLower()))
-                return p;
+                result.Add(p);
         }
 
-        return null;
+        return result;
     }
 }
 
@@ -74,11 +85,20 @@ public class BasicLuisDialog : LuisDialog<object>
         if (result.TryFindEntity("person", out ent))
         {
             DemoData data = new DemoData();
-            Person p = data.getPersonFromText(ent.Entity);
-            if (p == null)
-                await context.PostAsync($"Ich konnte leider keine passende Person mit dem Namen '{ent.Entity}' finden.");
+            List<Person> p = data.getPersonFromText(ent.Entity);
+            if (p.Count == 0)
+                await context.PostAsync($"Ich konnte leider keine Person mit dem Namen '{ent.Entity}' finden.");
             else
-                await context.PostAsync($"{p.Anzeigename} arbeitet im Bereich {p.Bereich.ToString()}.");
+            {
+                string s = "";
+                foreach (Person pp in p)
+                {
+                    if (!string.IsNullOrEmpty(s))
+                        s += "\n";
+                    s += $"{p.Anzeigename} arbeitet im Bereich {p.Bereich.ToString()}.";
+                }
+                await context.PostAsync(s);
+            }
         }
         else
         {
