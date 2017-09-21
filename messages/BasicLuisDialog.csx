@@ -39,18 +39,18 @@ public class DemoData : List<Person>
         Add(new Person() { Vorname = "Anja", Nachname = "Kramer", Bereich = Fachbereich.Geschaeftsfuehrung });
     }
 
-    public List<Person> getPersonFromText(string text)
-    {
-        List<Person> result = new List<Person>();
-        text = text.ToLower();
-        foreach (Person p in this)
-        {
-            if (text.Contains(p.Nachname.ToLower()) || text.Contains(p.Vorname.ToLower()))
-                result.Add(p);
-        }
+    //public List<Person> getPersonFromText(string text)
+    //{
+    //    List<Person> result = new List<Person>();
+    //    text = text.ToLower();
+    //    foreach (Person p in this)
+    //    {
+    //        if (text.Contains(p.Nachname.ToLower()) || text.Contains(p.Vorname.ToLower()))
+    //            result.Add(p);
+    //    }
 
-        return result;
-    }
+    //    return result;
+    //}
 }
 
 
@@ -81,29 +81,30 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("Person_Fachbereich")]
     public async Task Person_FachbereichIntent(IDialogContext context, LuisResult result)
     {
-        EntityRecommendation ent;
-        if (result.TryFindEntity("person", out ent))
-        {
-            DemoData data = new DemoData();
-            List<Person> p = data.getPersonFromText(ent.Entity);
-            if (p.Count == 0)
-                await context.PostAsync($"Ich konnte leider keine Person mit dem Namen '{ent.Entity}' finden.");
-            else
-            {
-                string s = "";
-                foreach (Person pp in p)
-                {
-                    if (!string.IsNullOrEmpty(s))
-                        s += "\n";
-                    s += $"{p.Anzeigename} arbeitet im Bereich {p.Bereich.ToString()}.";
-                }
-                await context.PostAsync(s);
-            }
-        }
-        else
-        {
-            await context.PostAsync($"Bitte geben Sie den Namen einer Person an.");
-        }
+        //EntityRecommendation ent;
+        //if (result.TryFindEntity("person", out ent))
+        //{
+        //    DemoData data = new DemoData();
+        //    List<Person> p = data.getPersonFromText(ent.Entity);
+        //    if (p.Count == 0)
+        //        await context.PostAsync($"Ich konnte leider keine Person mit dem Namen '{ent.Entity}' finden.");
+        //    else
+        //    {
+        //        string s = "";
+        //        foreach (Person pp in p)
+        //        {
+        //            if (!string.IsNullOrEmpty(s))
+        //                s += "\n";
+        //            s += $"{p.Anzeigename} arbeitet im Bereich {p.Bereich.ToString()}.";
+        //        }
+        //        await context.PostAsync(s);
+        //    }
+        //}
+        //else
+        //{
+        //    await context.PostAsync($"Bitte geben Sie den Namen einer Person an.");
+        //}
+        await context.PostAsync($"Fachbereich: Test");
         context.Wait(MessageReceived);
     }
 
